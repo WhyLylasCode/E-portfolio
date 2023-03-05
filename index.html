@@ -299,7 +299,7 @@
         <div class="container">
             <div class="row">
                 <div class="section-title padd-15">
-            <h2>Contacte moi</h2>
+            <h2>Me contacter</h2>
             </div>        
         </div>
         <h3 class="contact-title">Avez vous des questions ?</h3>
@@ -324,20 +324,23 @@
             <!--Contact info item end-->
         </div>
         <h3 class="contact-title">Envoie moi un email</h3>
-        <h4 class="contact-sub-title">Je les consultes très souvent</h4>
+        <h4 class="contact-sub-title">Je les consultes régulièrement</h4>
         
             <!--Contact form-->
 <div class="row">
     <div class="contact-form padd-15">
         <div class="row">
             <div class="form-item col-6 padd-15">
+
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Nom">
+            <form onsubmit="sendEmail(); reset(); return false;">
+            <input name="nom" type="text" class="form-control" id="name" placeholder="Nom" required> 
         </div>
     </div>
     <div class="form-item col-6 padd-15">
     <div class="form-group">
-        <input type="email" class="form-control" placeholder="Email">
+
+        <input name="email" type="email" class="form-control" id="email" placeholder="Email" required>
     </div>
 </div>
 </div>
@@ -345,21 +348,24 @@
 <div class="row">
 <div class="form-item col-12 padd-15">
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Sujet">
+
+        <input name="sujet" type="text" class="form-control" id="subject" placeholder="Sujet" required>
     </div>
 </div>
 </div>
 <div class="row">
     <div class="form-item col-12 padd-15">
         <div class="form-group">
-            <textarea name="" class="form-control" id="" placeholder="Message"></textarea>
+
+            <textarea name="message" class="form-control" id="message" placeholder="Message" required></textarea>
         </div>
     </div>
     </div>
     <div class="row">
         <div class="form-item col-12 padd-15">
-            <button type="submit" class="btn">Envoyer
-            </button>            
+            <button type="submit" class="btn" onsubmit="sendMail()">Envoyer
+            </button>
+        </form>
         </div>
         </div>
 </div>
@@ -376,6 +382,14 @@
     <!--JS files-->
     <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("UoE1_8ybjVLVQ7-eb");
+   })();
+</script>
     <script>
     var typed = new Typed(".typing",{
         strings:["Web Designer", "Web Developer", "à la recherche d'une alternance"],
@@ -429,6 +443,30 @@
                         allSection[i].classList.toggle("open");
                     }
                 }
-            </script>
+
+                function sendMail(){
+                    var params = {
+                        name : document.getElementById("name"),
+                        email : document.getElementById("email"),
+                        subject : document.getElementById("subject"),
+                        message : document.getElementById("message")
+                    };
+                    const serviceId = "service_qpzio0o";
+                const templateId = "template_9ibsaw8";
+
+                emailjs.send(serviceId, templateId, params).then((res) => {
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("subject").value = "";
+                    document.getElementById("message").value = "";
+                    console.log('did it');
+                    alert('Votre message a bien été envoyé !');
+                })
+
+                .catch((err) => console.log(err));
+                }
+</script>
+
+
 </body>
 </html>
